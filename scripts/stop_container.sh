@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
-containerid=$(sudo docker ps | awk 'NR>1 {print $1}')
+# Get the container ID of the running container (if any)
+containerid=$(sudo docker ps -q)
 
-if [ "$containerid" ]; then
+if [ -n "$containerid" ]; then
+  echo "Stopping and removing container: $containerid"
   sudo docker rm -f "$containerid"
   echo "Removed container $containerid"
 else
